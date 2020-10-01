@@ -18,17 +18,18 @@ void writestudfee(int,char[]);
 int flagG=1,flagF=1;
 
 int programmenu()
-{   
+{
 	clrscr();
 	int mc;
 	cout<<"\n............................";
 	cout<<"\n:                          :";
-	cout<<"\n:    1. Fee menu           :";
-	cout<<"\n:    2. Student's menu     :";
-	cout<<"\n:    3. EXIT               :";
+	cout<<"\n:    1. Fee Payment      :";
+	cout<<"\n:    2. Student Login        :";
+	cout<<"\n:    3. Exit               :";
 	cout<<"\n:                          :";
 	cout<<"\n:..........................:";
-	cout<<"\n\nEnter your choice";
+
+	cout<< "\n\n Enter the required option:";
 	cin>>mc;
 	return mc;
 }
@@ -36,18 +37,18 @@ int programmenu()
 class student
 {
 	int admno;
-	char name[25];
-	char   stream[15];
-	char   substream[6];
+	char name[30];
+	char stream[15];
+	char substream[10];
 
  public:
-	
+
 	void addstudent(int a)
 	{
 		clrscr();
 		admno=a;
 		cout<<"Student name"; gets(name);
-		cout<<"stream :"; gets(stream);
+		cout<<"Stream :"; gets(stream);
 		if(strcmpi(stream,"commerce")==0)
 		{
 			cout<<"\nEnter the substream(IP/EP/Maths)";
@@ -61,8 +62,8 @@ class student
 		}
 		writestudfee(admno,stream);
 	}
-	
-	    void displaystudent(void)   
+
+	    void displaystudent(void)
     {
 		cout<<"\n Admission No   : ";  cout<<admno;
 		cout<<"\n Name           : ";  cout<<name;
@@ -138,16 +139,16 @@ class fee                                ///class definition for class fee
 	int exam,library,PT,ID,medical;
 	int laboratory,computer,caution;
 	int total,tution,std;
-	
-	
-	
+
+
+
 	public:
-	
+
 	void getfee();                       ///getfee() is a function to get the fee details  @function1
-	void changefee();                    ///changefee() is to modify the already enterd fee datas 
-	
-    ///ACCESSOR FUNCTIONS............................. 
-    int retestablish()  {return establish;}			//
+	void changefee();                    ///changefee() is to modify the already enterd fee datas
+
+    ///ACCESSOR FUNCTIONS.............................
+  int retestablish()  {return establish;}			//
 	int retexam()       {return exam;}				//
 	int retlibrary()    {return library;}			//
 	int retPT()         {return PT;}				//
@@ -180,7 +181,7 @@ void fee::changefee()
 	cout<<"\n 11.Tution Fee           : ";  cout<<tution;
 	cout<<"\n\nEnter the field to change";
 	cin>>sfm;
-	
+
 	switch(sfm)
 	{
 		case 1 : cout<<"Enter the Class : "; cin>>std; break;
@@ -232,24 +233,24 @@ void writefee(void)           ///function to call getfee()[function1] and write 
 	writestreamfee();  //calling unction to set fees of each stream
 }
 
-void rewritefee(void)   ///function to  call changefee and write the updated data to file 
+void rewritefee(void)   ///function to  call changefee and write the updated data to file
 {
 	fstream fp("fee.DAT",ios::in|ios::binary|ios::out||ios::app); ///opening fee.DAT file
 	if(!fp)                ///checking for correct opening of file fee.DAT
 	{cout<<"File not opened correctly";    getch();   exit (0);}
-	
+
 	fee F;                    ///object of class fee
-	
+
 	if(fp.tellp()==0)         ///checking if any data is available in fee.DAT
 	{cout<<"No fee data available to change";}
-	
+
 	else
 	{                      ///reading and writing updated fee data
 		fp.read((char*)&F,sizeof(F));
 		F.changefee();  //calling #function2#
 		fp.write((char*)&F,sizeof(F));
 	}
-	
+
 	fp.close();    ///fee.DAT closng
 	writestreamfee(); //calling unction to set fees of each stream
 }
@@ -307,38 +308,38 @@ class streamfees
 		 fin.close();
 	 }
 
-		 
-	
+
+
 	///ACCESSOR FUNCTIONS.........................
 	 int retinitial()   {return initial;}		//
      int retpayfee()    {return payfee;}		//
 	 int retstreamno()  {return streamno;}		//
 	 char* retstreamf() {return streamf;}		//
-	///........................................... 
+	///...........................................
  };
- 
- 
+
+
 void writestreamfee(void)
 {
   ofstream temp("temp.DAT",ios::out||ios::binary||ios::app);
   if(!temp)
 	{cout<<"File not opened correctly";    getch();   exit (0);}
-  
-  
+
+
   else
   {
 	for(int i=0;i<5;i++)
 	{
 		streamfees F1;
 		F1.getstreamfee(i+1);
-		temp.write((char*)&F1,sizeof(F1));	
+		temp.write((char*)&F1,sizeof(F1));
 	}
   }
   temp.close();
   remove("streamfee.DAT");
   rename("temp.DAT","streamfee.DAT");
 }
-	
+
 
 
 
@@ -466,7 +467,7 @@ void writestudfee(int no,char string[15])
 {
 	studfee S(no,string);            ///creating object of studfee
 	ofstream fout("studfee.DAT",ios::in||ios::binary||ios::app);  ///opening file studfee.DAT to write student fee details
-	fout.write((char*)&S,sizeof(S)); ///writing feedata to file 
+	fout.write((char*)&S,sizeof(S)); ///writing feedata to file
 	fout.close();            ///studfee.DAT closing statement
 }
 
@@ -552,7 +553,7 @@ void officefeeprg(void)
 
 char Searchstudenta(int adm)
 {
-	
+
 	clrscr();
 	char ch3;
 	ifstream fin("student.DAT",ios::in||ios::binary);
@@ -564,11 +565,11 @@ char Searchstudenta(int adm)
 		cout<<"Is this the required student(Y/N)";
 		cin>>ch3;
 		if(tolower(ch3)=='y')
-		{ 
+		{
 			fin.close();
 			return ch3;
 		}
-		
+
 		else
 		{
 			ch3='n';
@@ -580,7 +581,7 @@ char Searchstudenta(int adm)
 	fin.close();
 	return ch3;
 }
-	
+
 int Searchstudentn(char A[25])
 {
 	int a;
@@ -603,7 +604,7 @@ int Searchstudentn(char A[25])
 	fin.close();
 	return (0);
 }
-	
+
 
 void putpayfees(int n)
 {
@@ -664,20 +665,20 @@ void payfees1(void)
 			else
 				cout<<"Student not Found";
 		}
-	
+
 		else if(sfm==3)
 			flagG=0;
-			
+
 		else
 		{
 			cout<<"\nWRONG CHOICE......TRY AGAIN....";
 			getch();
 		}
-		
+
    }
    flagG=1;
 }
-	
+
 
 void checkfees(int a)
 {
@@ -690,19 +691,19 @@ void checkfees(int a)
 			S.checkfee();
 			return;
 		}
-	}	
-	
-}	
+	}
+
+}
 
 void checkfeestud(int n)
 {
-	
+
 }
 void showstudfee1(void)
 {
   while(1)
   {
-	int sno; 
+	int sno;
 	cout<<"\n\t..............................";
 	cout<<"\n\t:            STREAM          :";
 	cout<<"\n\t:----------------------------:";
@@ -715,13 +716,13 @@ void showstudfee1(void)
 	cout<<"\n\t:   6. GO BACK				:";
 	cout<<"\n\t:............................:"<<endl;
 	cin>>sno;
-	
+
 	if(sno==6)
 		return;
-	
+
 	switch(sno)
 	{
-		case 1: 
+		case 1:
 		case 2:
 		case 3:
 		case 4:
@@ -779,8 +780,8 @@ void checkfees1(void)
 		}
 	}
 	flagG=1;
-}	
-	
+}
+
 
 void getfee1()
 {
